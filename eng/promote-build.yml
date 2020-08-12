@@ -130,41 +130,38 @@ stages:
               }
           env:
             MAESTRO_API_TOKEN: $(MaestroApiAccessToken)
-            BARBuildId: ${{ parameters.BARBuildId }}
-            PromoteToChannelIds: ${{ parameters.PromoteToChannelIds }}
+            BARBuildId: $(BARBuildId)
+            PromoteToChannelIds: $(PromoteToChannelIds)
 
 - ${{ if le(parameters.PublishingInfraVersion, 2) }}:
   - template: \eng\common\templates\post-build\post-build.yml
     parameters:
-      PromoteToChannelIds: ${{ parameters.PromoteToChannelIds }}
-      BARBuildId: ${{ parameters.BARBuildId }}
-    
-      enableSourceLinkValidation: ${{ parameters.EnableSourceLinkValidation }}
-      enableNugetValidation: ${{ parameters.EnableNugetValidation }}
-      enableSigningValidation: ${{ parameters.EnableSigningValidation }}
-      
+      PromoteToChannelIds: $(PromoteToChannelIds)
+      BARBuildId: $(BARBuildId)
+      enableSourceLinkValidation: $(EnableSourceLinkValidation)
+      enableNugetValidation: $(EnableNugetValidation)
+      enableSigningValidation: $(parameters.EnableSigningValidation)
       validateDependsOn:
         - prepare_promotion
-           
-      publishInstallersAndChecksums: ${{ parameters.PublishInstallersAndChecksums }}
-      symbolPublishingAdditionalParameters: ${{ parameters.SymbolPublishingAdditionalParameters }}
-      artifactsPublishingAdditionalParameters: ${{ parameters.ArtifactsPublishingAdditionalParameters }}
-      signingValidationAdditionalParameters: ${{ parameters.SigningValidationAdditionalParameters }}
+      publishInstallersAndChecksums: $(PublishInstallersAndChecksums)
+      symbolPublishingAdditionalParameters: $(SymbolPublishingAdditionalParameters)
+      artifactsPublishingAdditionalParameters: $(ArtifactsPublishingAdditionalParameters)
+      signingValidationAdditionalParameters: $(SigningValidationAdditionalParameters)
 
 - ${{ if ge(parameters.PublishingInfraVersion, 3) }}:
   - template: \eng\publishing\v3\publish.yml
     parameters:
-      PromoteToChannelIds: ${{ parameters.PromoteToChannelIds }}
-      BARBuildId: ${{ parameters.BARBuildId }}
+      PromoteToChannelIds: $(PromoteToChannelIds)
+      BARBuildId: $(BARBuildId)
     
-      enableSourceLinkValidation: ${{ parameters.EnableSourceLinkValidation }}
-      enableNugetValidation: ${{ parameters.EnableNugetValidation }}
-      enableSigningValidation: ${{ parameters.EnableSigningValidation }}
+      enableSourceLinkValidation: $(EnableSourceLinkValidation)
+      enableNugetValidation: $(EnableNugetValidation)
+      enableSigningValidation: $(EnableSigningValidation)
       
       validateDependsOn:
         - prepare_promotion
       
-      publishInstallersAndChecksums: ${{ parameters.PublishInstallersAndChecksums }}
-      symbolPublishingAdditionalParameters: ${{ parameters.SymbolPublishingAdditionalParameters }}
-      artifactsPublishingAdditionalParameters: ${{ parameters.ArtifactsPublishingAdditionalParameters }}
-      signingValidationAdditionalParameters: ${{ parameters.SigningValidationAdditionalParameters }}
+      publishInstallersAndChecksums: $(PublishInstallersAndChecksums)
+      symbolPublishingAdditionalParameters: $(SymbolPublishingAdditionalParameters)
+      artifactsPublishingAdditionalParameters: $(ArtifactsPublishingAdditionalParameters)
+      signingValidationAdditionalParameters: $(SigningValidationAdditionalParameters)
